@@ -29,13 +29,5 @@ export default function PrimaryPage() {
         <InitialPushSlide />,
       ];
 
-  return (
-    <>
-      {pages[pageStep]}
-      {/* <PrimarySlide /> */}
-      {/* <Box sx={{ width: "100%", maxWidth: 440 }}>
-        <SignupSlide />
-      </Box> */}
-    </>
-  );
+  return <>{pages[pageStep]}</>;
 }

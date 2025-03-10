@@ -21,9 +21,13 @@ import { toast } from "react-toastify";
 
 interface SlideProps {
   setPageStep?: React.Dispatch<React.SetStateAction<number>>;
+  setCurrentView?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function SignupForm({ setPageStep }: SlideProps) {
+export default function SignupForm({
+  setPageStep,
+  setCurrentView,
+}: SlideProps) {
   const emailRegex = /^.+@.+\..+$/;
   const passwordRegex =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
@@ -66,7 +70,15 @@ export default function SignupForm({ setPageStep }: SlideProps) {
         const isVerified = await checkEmailVerified(formData.email);
         console.log(isVerified);
 
-        if (isVerified) {
+        if (isVerified && !isSubmitted) {
+          return toast(
+            <ToastMsg
+              title="Already Existing Account"
+              message="This email already registered. Try logging in!"
+            />,
+            { autoClose: 2000, hideProgressBar: true }
+          );
+        } else if (isVerified && isSubmitted) {
           const userData = await login({
             email: formData.email,
             password: formData.password,
@@ -107,6 +119,7 @@ export default function SignupForm({ setPageStep }: SlideProps) {
           );
         }
       } else {
+        // Password validation not passes
         console.log("no");
       }
     }
@@ -248,7 +261,10 @@ export default function SignupForm({ setPageStep }: SlideProps) {
         text={isSubmitted ? "Verify your email" : "Click me to sign up!"}
       />
 
-      <SubLink text="I already have account →" />
+      <SubLink
+        text="I already have account →"
+        clickEvent={() => (setCurrentView ? setCurrentView("login") : "")}
+      />
       <SubLink text="No, I want to be anonymous →" />
     </Box>
   );

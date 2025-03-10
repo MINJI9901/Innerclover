@@ -93,6 +93,7 @@ export async function checkEmailVerified(email: string) {
 
   if (user) {
     console.log("user email verified?: ", user.email_confirmed_at);
+    console.log("user check before sign up: ", user);
     return user.email_confirmed_at ? true : false;
   } else {
     console.log("User not foud");
