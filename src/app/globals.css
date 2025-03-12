@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes textWave {
+  0% {
+    font-size: 1.5rem;
+    color: gray;
+  }
+  50% {
+    font-size: 2rem;
+    color: #98b085;
+  }
+  100% {
+    font-size: 1.5rem;
+    color: gray;
+  }
+}
+
 @keyframes displayDelay {
   from {
     opacity: 0;

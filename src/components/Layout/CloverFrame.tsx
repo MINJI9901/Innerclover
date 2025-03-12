@@ -1,7 +1,8 @@
 import React from "react";
 import { Card, Box, Typography } from "@mui/material";
-
+// COMPONENTS
 import CloverLogo from "../Common/CloverLogo";
+import Title from "../Common/Title";
 
 interface FrameProps {
   text: string | React.ReactNode;
@@ -33,7 +34,8 @@ export default function CloverFrame({ text, children }: FrameProps) {
           <CloverLogo />
         </Box>
 
-        <Typography
+        <Title text={text} />
+        {/* <Typography
           variant="h5"
           component="h1"
           sx={{
@@ -42,9 +44,7 @@ export default function CloverFrame({ text, children }: FrameProps) {
             textAlign: "center",
             lineHeight: 1.4,
           }}
-        >
-          {text}
-        </Typography>
+        ></Typography> */}
         {children}
       </Box>
     </Card>

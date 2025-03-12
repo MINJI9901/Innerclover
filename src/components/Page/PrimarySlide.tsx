@@ -51,7 +51,7 @@ interface SlideProps {
 
 export default function PrimarySlide({ setPageStep }: SlideProps) {
   const { palette, typography } = useTheme();
-  const colors = useContext(RandColorContext);
+  const getRandomColor = useContext(RandColorContext);
 
   return (
     <Box

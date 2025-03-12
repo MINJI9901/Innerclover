@@ -6,9 +6,9 @@ const getRandomColor = (type: "light" | "normal" | "dark"): string => {
 
   switch (type) {
     case "light":
-      r = Math.floor(Math.random() * 128 + 128); // 128–255 (brighter)
-      g = Math.floor(Math.random() * 128 + 128);
-      b = Math.floor(Math.random() * 128 + 128);
+      r = Math.floor(Math.random() * 70 + 185); // 128–255 (brighter)
+      g = Math.floor(Math.random() * 70 + 185);
+      b = Math.floor(Math.random() * 70 + 185);
       break;
     case "dark":
       r = Math.floor(Math.random() * 128); // 0–127 (darker)

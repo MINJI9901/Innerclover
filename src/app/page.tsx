@@ -1,8 +1,24 @@
-import { Box } from "@mui/material";
+"use client";
+import { useContext, useEffect } from "react";
+import { useRouter } from "next/navigation";
+// import { useNavigate } from "react-router-dom";
+import { Box, Typography } from "@mui/material";
+// CONTEXTS
+import { UserContext } from "../context/UserContext";
 // COMPONENTS
 import PrimaryPage from "../components/PrimaryPage";
+import Loading from "../components/Common/Loading";
 
 export default function Home() {
+  const router = useRouter();
+
+  const { user, isLoading } = useContext(UserContext);
+
+  useEffect(() => {
+    if (user) {
+      router.push("/today");
+    }
+  }, [isLoading]);
   return (
     <Box
       sx={{
@@ -15,7 +31,7 @@ export default function Home() {
         padding: 2,
       }}
     >
-      <PrimaryPage />
+      {isLoading || user ? <Loading /> : <PrimaryPage />}
     </Box>
   );
 }

@@ -4,7 +4,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { User } from "@supabase/supabase-js";
 import { createClient } from "../utils/supabase/client";
 import { login } from "../app/signup/actions";
-import { getRowById } from "../utils/apis/api";
+import { getRowById } from "../app/actions";
 
 // Define user context type
 interface UserContextType {
@@ -42,7 +42,6 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     const { data } = await supabase.auth.getUser();
     console.log("user in context: ", data?.user);
     setUser(data?.user);
-    setIsLoading(false);
 
     // IF THE USER EXISTS
     if (data?.user) {
@@ -50,6 +49,8 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
       console.log("profile in context: ", profileData[0]);
       setProfile(profileData[0]);
     }
+
+    setIsLoading(false);
   };
 
   useEffect(() => {
