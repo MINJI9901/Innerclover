@@ -63,7 +63,7 @@ export default function MessageBlock({
         mb={"1rem"}
       >
         <span>{formatDate(created_at)}</span>
-        <span>{is_public ? upvotes : ""}</span>
+        <span>{is_public ? `👍🏻 ${upvotes || 0}` : ""}</span>
       </Box>
       <Typography
         height={height}

@@ -4,16 +4,48 @@
 
 @keyframes textWave {
   0% {
-    font-size: 1.5rem;
-    color: gray;
+    font-size: var(--start-font-size, 1.5rem);
+    color: var(--start-color, gray);
   }
   50% {
-    font-size: 2rem;
-    color: #98b085;
+    font-size: var(--mid-font-size, 2rem);
+    color: var(--mid-color, #98b085);
   }
   100% {
-    font-size: 1.5rem;
-    color: gray;
+    font-size: var(--end-font-size, 1.5rem);
+    color: var(--end-color, gray);
+  }
+}
+
+@keyframes borderWave {
+  0% {
+    height: var(--start-height, 0.3rem);
+    border-color: var(--start-border-color, #68c268);
+    opacity: var(--start-opacity, 0.9);
+  }
+  10% {
+    height: var(--mid10-height, 0.7rem);
+    border-color: var(--mid10-border-color, #68c268);
+    opacity: var(--mid10-opacity, 0.8);
+  }
+  35% {
+    height: var(--mid35-height, 1rem);
+    border-color: var(--mid35-border-color, #68c268);
+    opacity: var(--mid35-opacity, 0.7);
+  }
+  60% {
+    height: var(--mid60-height, 2rem);
+    border-color: var(--mid60-border-color, #68c268);
+    opacity: var(--mid60-opacity, 0.6);
+  }
+  85% {
+    height: var(--mid85-height, 3rem);
+    border-color: var(--mid85-border-color, #68c268);
+    opacity: var(--mid85-opacity, 0.5);
+  }
+  100% {
+    height: var(--end-height, 4rem);
+    border-color: var(--end-border-color, #bdbdbd);
   }
 }
 

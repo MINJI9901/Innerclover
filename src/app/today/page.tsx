@@ -13,7 +13,7 @@ import Title from "@/src/components/Common/Title";
 import BasicButton from "@/src/components/Common/BasicButton";
 import Loading from "@/src/components/Common/Loading";
 // HOOKS
-import { getMessageByUserId } from "../actions";
+import { getMessagesByUserId, getMessagesByUserIdAndPeriod } from "../actions";
 
 interface DataFormat {
   id: string;
@@ -23,6 +23,17 @@ interface DataFormat {
   is_public: boolean;
   upvotes?: number | null;
 }
+
+const now = new Date();
+const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+const todayEnd = new Date(
+  now.getFullYear(),
+  now.getMonth(),
+  now.getDate(),
+  23,
+  59,
+  59
+);
 
 export default function TodayPage() {
   const { user, isLoading } = useContext(UserContext);
@@ -34,7 +45,11 @@ export default function TodayPage() {
   const getTodayMessage = async () => {
     if (user) {
       console.log("user id in today page: ", user.id);
-      const data = await getMessageByUserId(user?.id, true);
+      const data = await getMessagesByUserIdAndPeriod(
+        user?.id,
+        todayStart,
+        todayEnd
+      );
 
       console.log("today message in page: ", data[0]);
 

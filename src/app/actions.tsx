@@ -51,32 +51,84 @@ export async function updateRowById(
 }
 
 // -------------------- MESSAGES APIs --------------------
-export async function getMessageByUserId(
+export async function getMessagesByUserId(
   userId: string,
-  getToday: boolean = false
+  start?: number,
+  end?: number
 ) {
-  const now = new Date();
-  const today = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate()
-  ).toISOString();
-
-  console.log("today: ", today);
-
   const supabase = await createAdminClient();
 
-  if (getToday) {
+  if (typeof start === "number" && typeof end === "number") {
     const { data, error } = await supabase
       .from("messages")
       .select("*")
       .eq("user_id", userId)
-      .gte("created_at", today);
+      .range(start, end);
 
-    console.log("today's message by userId: ", data);
+    console.log("messages by userId: ", data);
 
     if (error) {
-      console.log("error getting today message by userId: ", error);
+      console.log("error getting messages by userId: ", error);
+      throw error;
+    }
+
+    return data;
+  }
+
+  const { data, error } = await supabase
+    .from("messages")
+    .select("*")
+    .eq("user_id", userId);
+
+  console.log("messages by userId: ", data);
+
+  if (error) {
+    console.log("error getting messages by userId: ", error);
+    throw error;
+  }
+
+  return data;
+}
+
+export async function getMessagesByUserIdAndPeriod(
+  userId: string,
+  startDate: Date,
+  endDate: Date
+) {
+  console.log("start date: ", startDate);
+  console.log("end date: ", endDate);
+
+  const supabase = await createAdminClient();
+
+  const { data, error } = await supabase
+    .from("messages")
+    .select("*")
+    .eq("user_id", userId)
+    .gte("created_at", startDate.toISOString())
+    .lte("created_at", endDate.toISOString());
+
+  console.log("today's message by userId: ", data);
+
+  if (error) {
+    console.log("error getting today message by userId: ", error);
+    throw error;
+  }
+
+  return data;
+}
+
+export async function getPublicMessages(start?: number, end?: number) {
+  const supabase = await createAdminClient();
+
+  if (typeof start === "number" && typeof end === "number") {
+    const { data, error } = await supabase
+      .from("messages")
+      .select("*")
+      .eq("is_public", true)
+      .range(start, end);
+
+    if (error) {
+      console.log("error getting row by id: ", error);
       throw error;
     }
 
@@ -85,12 +137,10 @@ export async function getMessageByUserId(
     const { data, error } = await supabase
       .from("messages")
       .select("*")
-      .eq("user_id", userId);
-
-    console.log("messages by userId: ", data);
+      .eq("is_public", true);
 
     if (error) {
-      console.log("error getting messages by userId: ", error);
+      console.log("error getting row by id: ", error);
       throw error;
     }
 
