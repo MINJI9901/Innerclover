@@ -3,6 +3,7 @@ import { createClient } from "../utils/supabase/server";
 import { createAdminClient } from "../utils/supabase/admin";
 
 // -------------------- GENERAL APIs --------------------
+// ---------- GET ----------
 export async function getRowById(table: string, id: string) {
   const supabase = await createAdminClient();
 
@@ -16,6 +17,7 @@ export async function getRowById(table: string, id: string) {
   return data;
 }
 
+// ---------- POST ----------
 export async function insertOneRow(table: string, row: Record<string, any>) {
   const supabase = await createAdminClient();
 
@@ -29,6 +31,7 @@ export async function insertOneRow(table: string, row: Record<string, any>) {
   return data;
 }
 
+// ---------- PATCH ----------
 export async function updateRowById(
   table: string,
   id: string,
@@ -50,7 +53,49 @@ export async function updateRowById(
   return data;
 }
 
+// ---------- PATCH ----------
+export async function updateArrayColumnById(
+  table: string,
+  id: string,
+  columnName: string,
+  newValue: string
+) {
+  const supabase = await createAdminClient();
+
+  const { data: getData, error: getError } = await supabase
+    .from(table)
+    .select(`${columnName}`)
+    .eq("id", id);
+
+  if (getError) {
+    console.log(`error to get column ${columnName}: `, getError);
+    throw getError;
+  }
+
+  console.log(getData[0]);
+
+  const dataObj = getData[0] as unknown as Record<string, any>;
+
+  const array = dataObj[columnName] || [];
+
+  array.push(newValue);
+  console.log(array);
+
+  const { data, error } = await supabase
+    .from(table)
+    .update({ [columnName]: array })
+    .eq("id", id);
+
+  if (error) {
+    console.log("error updating columns: ", error);
+    throw error;
+  }
+
+  return data;
+}
+
 // -------------------- MESSAGES APIs --------------------
+// ---------- GET ----------
 export async function getMessagesByUserId(
   userId: string,
   start?: number,
@@ -90,13 +135,14 @@ export async function getMessagesByUserId(
   return data;
 }
 
+// ---------- GET ----------
 export async function getMessagesByUserIdAndPeriod(
   userId: string,
   startDate: Date,
   endDate: Date
 ) {
-  console.log("start date: ", startDate);
-  console.log("end date: ", endDate);
+  console.log("start date: ", startDate.toISOString());
+  console.log("end date: ", endDate.toISOString());
 
   const supabase = await createAdminClient();
 
@@ -107,7 +153,7 @@ export async function getMessagesByUserIdAndPeriod(
     .gte("created_at", startDate.toISOString())
     .lte("created_at", endDate.toISOString());
 
-  console.log("today's message by userId: ", data);
+  console.log("message by userId and period: ", data);
 
   if (error) {
     console.log("error getting today message by userId: ", error);
@@ -117,6 +163,7 @@ export async function getMessagesByUserIdAndPeriod(
   return data;
 }
 
+// ---------- GET ----------
 export async function getPublicMessages(start?: number, end?: number) {
   const supabase = await createAdminClient();
 

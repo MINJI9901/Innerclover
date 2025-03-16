@@ -1,9 +1,12 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 // CONTEXTS
 import { RandColorContext } from "@/src/context/RandColorContext";
+import { UserContext } from "@/src/context/UserContext";
 // COMPONENTS
+// HOOKS
+import { updateArrayColumnById } from "@/src/app/actions";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -21,7 +24,7 @@ interface DataFormat {
   message: string;
   userId: string;
   is_public: boolean;
-  upvotes?: number | null;
+  likes?: string[] | null;
 }
 
 interface MessageProps {
@@ -33,21 +36,57 @@ interface MessageProps {
 
 export default function MessageBlock({
   messageData = {
-    id: "123jse",
+    id: "123",
     created_at: new Date().toLocaleDateString(),
-    message:
-      "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Similique placeat pariatur nisi optio tempore temporibus quae neque voluptates blanditiis aliquid quis non culpa necessitatibus doloremque dicta, qui veritatis quos consequatur. Lorem ipsum dolor, sit amet consectetur adipisicing elit. Similique placeat pariatur nisi optio tempore temporibus quae neque voluptates blanditiis aliquid quis non culpa necessitatibus doloremque dicta, qui veritatis quos consequatur.",
-    userId: "123jdjf",
+    message: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
+    userId: "123",
     is_public: true,
-    upvotes: 123,
+    likes: null,
   },
   displayHeader = true,
   height = "6rem",
   bgcolor,
 }: MessageProps) {
   const getRandomColor = useContext(RandColorContext);
+  const { user } = useContext(UserContext);
 
-  const { message, created_at, is_public, upvotes } = messageData;
+  const { message, created_at, is_public, likes } = messageData;
+  const [dynamicLikes, setDynamicLikes] = useState(likes?.length || 0);
+  const [myLikes, setMyLikes] = useState(false);
+
+  useEffect(() => {
+    // TO CHECK IF THE MESSAGES IS LIKED BY THE USER
+    likes?.forEach((userId) => {
+      if (userId === user?.id) {
+        setMyLikes(true);
+      }
+    });
+  }, []);
+
+  const likesClickEvent = async () => {
+    if (!myLikes) {
+      const userRes = await updateArrayColumnById(
+        "users",
+        user ? user?.id : "",
+        "liked_messages",
+        messageData.id
+      );
+
+      console.log(userRes);
+
+      const messageRes = await updateArrayColumnById(
+        "messages",
+        messageData.id,
+        "likes",
+        user ? user?.id : ""
+      );
+
+      console.log(messageRes);
+
+      setDynamicLikes((prev) => prev + 1);
+      setMyLikes(true);
+    }
+  };
 
   return (
     <Box
@@ -63,7 +102,9 @@ export default function MessageBlock({
         mb={"1rem"}
       >
         <span>{formatDate(created_at)}</span>
-        <span>{is_public ? `👍🏻 ${upvotes || 0}` : ""}</span>
+        <span style={{ cursor: "pointer" }} onClick={likesClickEvent}>
+          {is_public ? `${myLikes ? "♥" : "♡"} ${dynamicLikes}` : ""}
+        </span>
       </Box>
       <Typography
         height={height}
