@@ -74,7 +74,7 @@ export default function MonthPicker({
   return (
     <Box>
       <CalendarMonthIcon
-        sx={{ fontSize: "2rem", ml: "1rem" }}
+        sx={{ fontSize: "2rem", ml: "1rem", color: "text.secondary" }}
         onClick={handleOpen}
       ></CalendarMonthIcon>
       {/* <Typography display="inline-block" margin="0.5rem">

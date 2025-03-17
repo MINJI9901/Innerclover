@@ -1,7 +1,7 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 // CONTEXTS
 import { UserContext } from "@/src/context/UserContext";
 // COMPONENTS
@@ -77,7 +77,9 @@ export default function TodayPage() {
       {isLoading || pageLoading ? (
         <Loading />
       ) : (
-        <Box width={{ xs: "100%", sm: "80%", md: "70%" }} mx={"auto"}>
+        <Container
+          sx={{ width: { xs: "100%", sm: "80%", md: "70%" }, mx: "auto" }}
+        >
           <Title
             text={
               todayData
@@ -116,7 +118,7 @@ export default function TodayPage() {
               fetchData={getTodayMessage}
             />
           )}
-        </Box>
+        </Container>
       )}
     </MainFrame>
   );

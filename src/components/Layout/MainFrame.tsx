@@ -26,7 +26,7 @@ export default function MainFrame({
           alignItems: alignItems,
           justifyContent: "center",
           // background: "linear-gradient(to bottom, #f0f8f0, #e0f0e0)",
-          background: "secondary.dark",
+          bgcolor: "background.default",
           padding: 2,
         }}
       >

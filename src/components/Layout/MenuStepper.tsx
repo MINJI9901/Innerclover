@@ -25,7 +25,7 @@ const menuSteps = [
     ],
     path: "/logs",
   },
-  { label: "My Account", subMenu: [], path: "/" },
+  { label: "My Account", subMenu: [], path: "/account" },
 ];
 
 export default function MenuStepper({ activeStep }: { activeStep: number }) {
@@ -95,7 +95,9 @@ export default function MenuStepper({ activeStep }: { activeStep: number }) {
                 <Typography
                   component={"a"}
                   href={menu.path}
-                  color={index === activeStep ? palette.primary.dark : ""}
+                  color={
+                    index === activeStep ? "primary.dark" : "text.secondary"
+                  }
                   fontWeight={index === activeStep ? 700 : 400}
                   textAlign={"center"}
                   display={"block"}

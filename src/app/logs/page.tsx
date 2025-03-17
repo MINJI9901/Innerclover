@@ -27,7 +27,7 @@ interface DataFormat {
   message: string;
   userId: string;
   is_public: boolean;
-  upvotes?: number | null;
+  likes?: string[] | null;
 }
 
 let start = 0;

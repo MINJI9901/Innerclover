@@ -255,7 +255,7 @@ export default function MyPage() {
                     mb={"3rem"}
                     borderRadius={"1rem"}
                     padding={"1.5rem 2rem"}
-                    bgcolor={"#F7FAEF"}
+                    bgcolor={"background.paper"}
                   >
                     <Typography
                       color="text.secondary"

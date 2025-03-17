@@ -78,14 +78,16 @@ export default function MessageForm({ messageData, fetchData }: MessageProps) {
         multiline
         rows={8}
         sx={{
-          "& .MuiInputBase-root": { bgcolor: "white", pb: "2rem" },
-          // "& .MuiFormHelperText-root": { position: "absolute" },
+          "& .MuiInputBase-root": { bgcolor: "secondary.light", pb: "2rem" },
+          "& .MuiFormHelperText-root": {
+            color: "text.primary",
+            position: "absolute",
+            bottom: "5px",
+            right: 0,
+          },
         }}
         placeholder="Whatever you want to say or you don't want to forget about..."
         helperText={`${5000} chars left`}
-        FormHelperTextProps={{
-          sx: { position: "absolute", bottom: "5px", right: 0 },
-        }}
         value={newMessage.message}
         onChange={handleMessage}
       />
