@@ -16,6 +16,7 @@ interface UserContextType {
     created_at: Date;
     avatar_url: string;
     email: string;
+    liked_messages: string[] | null;
   } | null;
   setProfile?: React.Dispatch<React.SetStateAction<any>>;
   fetchUser?: Function;

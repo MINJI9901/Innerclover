@@ -12,7 +12,7 @@ import MessageBlock from "@/src/components/Display/MessageBlock";
 import Loading from "@/src/components/Common/Loading";
 import MonthPicker from "@/src/components/Form/MonthPicker";
 // HOOKS
-import { getPublicMessages } from "../../actions";
+import { getRowsInArray } from "../../actions";
 
 interface DataFormat {
   id: string;
@@ -27,7 +27,7 @@ let start = 0;
 
 export default function LikedPage() {
   const getRandomColor = useContext(RandColorContext);
-  const { isLoading } = useContext(UserContext);
+  const { isLoading, profile } = useContext(UserContext);
 
   const loaderBox = useRef<HTMLDivElement | null>(null);
 
@@ -38,21 +38,33 @@ export default function LikedPage() {
   const [dataDone, setDataDone] = useState(false);
 
   const getMessages = async () => {
-    const data = await getPublicMessages(start, start + 8);
+    const likedList = profile?.liked_messages || [];
 
-    console.log(data);
+    console.log(profile?.liked_messages);
 
-    if (data.length) {
-      const colorArray = Array.from({ length: 9 }, () =>
-        getRandomColor("light")
+    if (likedList.length) {
+      const data = await getRowsInArray(
+        "messages",
+        likedList,
+        start,
+        start + 8
       );
-      setMessages((prev) => (prev ? [...prev, ...data] : data));
-      setColors((prev) => (prev ? [...prev, ...colorArray] : colorArray));
-      start += 8;
-      console.log(start);
-    } else {
-      setDataDone(true);
+
+      console.log(data);
+
+      if (data.length) {
+        const colorArray = Array.from({ length: 9 }, () =>
+          getRandomColor("light")
+        );
+        setMessages((prev) => (prev ? [...prev, ...data] : data));
+        setColors((prev) => (prev ? [...prev, ...colorArray] : colorArray));
+        start += 8;
+        console.log(start);
+      } else {
+        setDataDone(true);
+      }
     }
+
     setPageLoading(false);
   };
 
@@ -87,7 +99,7 @@ export default function LikedPage() {
       io.disconnect();
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, []);
+  }, [profile]);
 
   return (
     <>

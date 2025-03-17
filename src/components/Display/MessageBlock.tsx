@@ -48,7 +48,7 @@ export default function MessageBlock({
   bgcolor,
 }: MessageProps) {
   const getRandomColor = useContext(RandColorContext);
-  const { user } = useContext(UserContext);
+  const { user, profile } = useContext(UserContext);
 
   const { message, created_at, is_public, likes } = messageData;
   const [dynamicLikes, setDynamicLikes] = useState(likes?.length || 0);
@@ -56,11 +56,18 @@ export default function MessageBlock({
 
   useEffect(() => {
     // TO CHECK IF THE MESSAGES IS LIKED BY THE USER
-    likes?.forEach((userId) => {
-      if (userId === user?.id) {
-        setMyLikes(true);
-      }
-    });
+    if (displayHeader) {
+      profile?.liked_messages?.forEach((msgId) => {
+        if (msgId === messageData.id) {
+          setMyLikes(true);
+        }
+      });
+      // likes?.forEach((userId) => {
+      //   if (userId === user?.id) {
+      //     setMyLikes(true);
+      //   }
+      // });
+    }
   }, []);
 
   const likesClickEvent = async () => {

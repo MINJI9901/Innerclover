@@ -17,6 +17,43 @@ export async function getRowById(table: string, id: string) {
   return data;
 }
 
+// ---------- GET ----------
+export async function getRowsInArray(
+  table: string,
+  array: string[],
+  start?: number,
+  end?: number
+) {
+  const supabase = await createAdminClient();
+
+  if (start && end) {
+    const { data, error } = await supabase
+      .from(table)
+      .select("*")
+      .in("id", array)
+      .range(start, end);
+
+    if (error) {
+      console.log("error getting row by id: ", error);
+      throw error;
+    }
+
+    return data;
+  }
+
+  const { data, error } = await supabase
+    .from(table)
+    .select("*")
+    .in("id", array);
+
+  if (error) {
+    console.log("error getting row by id: ", error);
+    throw error;
+  }
+
+  return data;
+}
+
 // ---------- POST ----------
 export async function insertOneRow(table: string, row: Record<string, any>) {
   const supabase = await createAdminClient();
@@ -72,14 +109,11 @@ export async function updateArrayColumnById(
     throw getError;
   }
 
-  console.log(getData[0]);
-
   const dataObj = getData[0] as unknown as Record<string, any>;
 
   const array = dataObj[columnName] || [];
 
   array.push(newValue);
-  console.log(array);
 
   const { data, error } = await supabase
     .from(table)
