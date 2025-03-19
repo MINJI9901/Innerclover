@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, createContext, useMemo } from "react";
+import { useState, createContext, useMemo, useEffect } from "react";
 import {
   createTheme,
   ThemeProvider as MUIThemeProvider,
@@ -22,6 +22,7 @@ export const ThemeContext = createContext<ThemeContextType | undefined>(
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [themeName, setThemeName] = useState("basicTheme");
+  const [loading, setLoading] = useState(true);
 
   const theme = useMemo(() => {
     switch (themeName) {
@@ -33,6 +34,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         return basicTheme;
     }
   }, [themeName]);
+
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+
+    setThemeName(storedTheme || "basicTheme");
+    setLoading(false);
+  }, []);
+
+  if (loading) return null;
 
   return (
     <ThemeContext.Provider value={{ themeName, setThemeName }}>

@@ -95,7 +95,8 @@ export async function updateArrayColumnById(
   table: string,
   id: string,
   columnName: string,
-  newValue: string
+  item: string,
+  removeItem: Boolean = false
 ) {
   const supabase = await createAdminClient();
 
@@ -113,7 +114,14 @@ export async function updateArrayColumnById(
 
   const array = dataObj[columnName] || [];
 
-  array.push(newValue);
+  if (removeItem) {
+    const idx = array.indexOf(item);
+    if (idx > -1) {
+      array.splice(idx, 1);
+    }
+  } else {
+    array.push(item);
+  }
 
   const { data, error } = await supabase
     .from(table)
@@ -190,7 +198,7 @@ export async function getMessagesByUserIdAndPeriod(
   console.log("message by userId and period: ", data);
 
   if (error) {
-    console.log("error getting today message by userId: ", error);
+    console.log("error getting message by userId and period: ", error);
     throw error;
   }
 
@@ -227,4 +235,49 @@ export async function getPublicMessages(start?: number, end?: number) {
 
     return data;
   }
+}
+
+// -------------------- STORAGE IMG UPLOAD --------------------
+export async function getPublicUrl(filePath: string) {
+  const supabase = await createAdminClient();
+
+  const { data } = supabase.storage
+    .from("innerclover-1")
+    .getPublicUrl(filePath);
+  const publicUrl = data.publicUrl;
+
+  return publicUrl;
+}
+
+export async function getSignedUrl(filePath: string) {
+  const supabase = await createAdminClient();
+
+  const { data } = await supabase.storage
+    .from("innerclover-1")
+    .createSignedUrl(filePath, 60);
+  const signedUrl = data?.signedUrl;
+
+  return signedUrl;
+}
+
+export async function uploadImgFile(file: File, userId: string) {
+  const fileExt = file?.name.split(".").pop();
+  const fileName = `${userId}.${fileExt}`;
+  const filePath = `profile_pictures/${fileName}`;
+
+  const supabase = await createAdminClient();
+  const { data, error } = await supabase.storage
+    .from("innerclover-1")
+    .upload(filePath, file, { upsert: true });
+
+  if (error) {
+    console.log("error uploading profile picture: ", error);
+    return null;
+  }
+
+  // return filePath;
+
+  const publicUrl = getPublicUrl(filePath);
+
+  return publicUrl;
 }

@@ -10,6 +10,7 @@ import MainFrame from "@/src/components/Layout/MainFrame";
 import Title from "@/src/components/Common/Title";
 import MessageBlock from "@/src/components/Display/MessageBlock";
 import Loading from "@/src/components/Common/Loading";
+import MessageDetail from "@/src/components/Display/MessageDetail";
 // HOOKS
 import { getPublicMessages } from "../actions";
 
@@ -107,6 +108,7 @@ export default function InspirationPage() {
                   <MessageBlock
                     messageData={data}
                     bgcolor={colors?.length ? colors[index] : ""}
+                    detailDisplay={true}
                   />
                 </Grid2>
               ))}

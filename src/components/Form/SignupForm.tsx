@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useRouter } from "next/navigation";
 // MUI
 import {
   Box,
@@ -31,6 +32,8 @@ export default function SignupForm({
   const emailRegex = /^.+@.+\..+$/;
   const passwordRegex =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
+
+  const router = useRouter();
 
   const { palette } = useTheme();
   const { user, setUser, fetchUser } = useContext(UserContext);
@@ -84,6 +87,7 @@ export default function SignupForm({
             password: formData.password,
           });
           if (userData) {
+            fetchUser ? await fetchUser() : "";
             setPageStep ? setPageStep(2) : "";
           }
         } else if (!isSubmitted) {
@@ -265,7 +269,14 @@ export default function SignupForm({
         text="I already have account →"
         clickEvent={() => (setCurrentView ? setCurrentView("login") : "")}
       />
-      <SubLink text="No, I want to be anonymous →" />
+      {setPageStep ? (
+        <SubLink
+          text="No, I want to be anonymous →"
+          clickEvent={() => setPageStep((prev) => prev + 1)}
+        />
+      ) : (
+        ""
+      )}
     </Box>
   );
 }

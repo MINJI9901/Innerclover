@@ -24,7 +24,10 @@ interface SlideProps {
   setCurrentView?: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export default function LoginForm({ setPageStep, setCurrentView }: SlideProps) {
+export default function SendPassResetForm({
+  setPageStep,
+  setCurrentView,
+}: SlideProps) {
   const emailRegex = /^.+@.+\..+$/;
   const passwordRegex =
     /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,16}$/;
@@ -32,52 +35,54 @@ export default function LoginForm({ setPageStep, setCurrentView }: SlideProps) {
   const { palette } = useTheme();
   const { user, setUser, fetchUser } = useContext(UserContext);
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
+  const [email, setEmail] = useState("");
   const [step, setStep] = useState(0);
 
-  // TO REFLECT CHANGES IN INPUT
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setEmail(e.target.value);
   };
 
-  // IN CASE IT'S INITIAL PAGE, GO TO NEXT SLIDE
   const handleNext = (currentStep: number) => {
-    if (
-      currentStep === 0 &&
-      formData.email.trim() &&
-      emailRegex.test(formData.email)
-    ) {
+    if (currentStep === 0 && email.trim() && emailRegex.test(email)) {
       setStep(1);
     }
   };
 
-  // SUBMIT LOGIN
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // IT RETURNS USER DATA OR FALSE (BOOLEAN)
-    if (passwordRegex.test(formData.password)) {
-      const res = await login(formData);
-      console.log("login res: ", res);
+    if (emailRegex.test(email)) {
+      const res = await sendPasswordResetEmail(email);
+      console.log("send email to reset password res: ", res);
       if (!res) {
         return toast(
           <ToastMsg
-            title="Login Failed"
-            message="Please check your email and password!"
+            title="Failed To Send Email"
+            message="Please try again."
             titleColor={palette.error.dark}
           />,
           { autoClose: 2000, hideProgressBar: true }
         );
       } else {
-        // IF LOGIN IS SUCCESSFUL, FETCH USER AGAIN AND MOVE TO THE NEXT SLIDE
-        fetchUser ? await fetchUser() : "";
-        setPageStep ? setPageStep(1) : "";
+        return toast(
+          <ToastMsg
+            title="Email Sent!"
+            message="Please check your email that you recieved to reset your password. I can take some minutes."
+            titleColor={palette.success.main}
+          />,
+          { autoClose: 2000, hideProgressBar: true }
+        );
       }
     } else {
-      // WHEN PASSWORD VALIDATION FAILED
-      console.log("password validation wrong");
+      // WHEN EMAIL VALIDATION FAILED
+      return toast(
+        <ToastMsg
+          title="Valid Email Needed"
+          message="Please enter a valid email!"
+          titleColor={palette.error.dark}
+        />,
+        { autoClose: 2000, hideProgressBar: true }
+      );
     }
   };
 
@@ -97,7 +102,7 @@ export default function LoginForm({ setPageStep, setCurrentView }: SlideProps) {
         type="email"
         placeholder="Please enter your email"
         name="email"
-        value={formData.email}
+        value={email}
         onChange={handleChangeInput}
         sx={{
           "& .MuiOutlinedInput-root": {
@@ -110,35 +115,14 @@ export default function LoginForm({ setPageStep, setCurrentView }: SlideProps) {
           },
           opacity: step < 0 ? 0.5 : 1,
         }}
-        disabled={step > 0}
-        InputProps={{
-          endAdornment:
-            step === 0 ? (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={() => handleNext(0)}
-                  edge="end"
-                  sx={{
-                    bgcolor: "rgba(122, 199, 79, 0.1)",
-                    color: "primary.dark",
-                    "&:hover": {
-                      bgcolor: "rgba(122, 199, 79, 0.2)",
-                    },
-                  }}
-                >
-                  <ArrowForwardIcon fontSize="small" />
-                </IconButton>
-              </InputAdornment>
-            ) : null,
-        }}
       />
 
-      <TextField
+      {/* <TextField
         fullWidth
         type="password"
         placeholder="Password * 8-12 letters including alphabet, number, special character"
         name="password"
-        value={formData.password}
+        value={password}
         onChange={handleChangeInput}
         sx={{
           "& .MuiOutlinedInput-root": {
@@ -171,19 +155,17 @@ export default function LoginForm({ setPageStep, setCurrentView }: SlideProps) {
               </InputAdornment>
             ) : null,
         }}
-      />
+      /> */}
 
-      <PrimaryButton text={"Login"} />
+      <PrimaryButton text={"Send email to reset password"} />
 
       <SubLink
         text="I need to sign up →"
         clickEvent={() => (setCurrentView ? setCurrentView("signup") : "")}
       />
       <SubLink
-        text="Forgot my password →"
-        clickEvent={() =>
-          setCurrentView ? setCurrentView("forgotPassword") : ""
-        }
+        text="Go back to login →"
+        clickEvent={() => (setCurrentView ? setCurrentView("login") : "")}
       />
     </Box>
   );

@@ -19,7 +19,11 @@ import MainFrame from "@/src/components/Layout/MainFrame";
 import Loading from "@/src/components/Common/Loading";
 import FlexMessageDisplay from "@/src/components/Display/FlexMessageDisplay";
 // HOOKS
-import { getPublicMessages, getMessagesByUserId } from "../actions";
+import {
+  getPublicMessages,
+  getMessagesByUserId,
+  getRowsInArray,
+} from "../actions";
 
 interface DataFormat {
   id: string;
@@ -37,7 +41,7 @@ export default function LogsPage() {
   const router = useRouter();
   // CONTEXTS
   const getRandomColor = useContext(RandColorContext);
-  const { user, isLoading } = useContext(UserContext);
+  const { user, isLoading, profile } = useContext(UserContext);
   // STATE
   const [myMessages, setMyMessages] = useState<DataFormat[] | undefined>(
     undefined
@@ -62,34 +66,34 @@ export default function LogsPage() {
           getRandomColor("light")
         );
         setMyMessages(data);
-        setMyColors(colorArray);
+        setMyColors((prev) => (prev?.length ? prev : colorArray));
+      }
+    }
+  };
+
+  const getLikedMessages = async () => {
+    const likedList = profile?.liked_messages || [];
+
+    if (likedList.length) {
+      const data = await getRowsInArray("messages", likedList, start, end);
+
+      console.log("Liked messages: ", data);
+
+      if (data.length) {
+        const colorArray = Array.from({ length: end }, () =>
+          getRandomColor("light")
+        );
+        setLikedMessages(data);
+        setLikedColors((prev) => (prev?.length ? prev : colorArray));
       }
     }
     setPageLoading(false);
   };
 
-  const getLikedMessages = async () => {
-    const data = await getPublicMessages(start, end);
-
-    console.log("liked messages: ", data);
-
-    if (data.length) {
-      const colorArray = Array.from({ length: end }, () =>
-        getRandomColor("light")
-      );
-      setLikedMessages(data);
-      setLikedColors(colorArray);
-    }
-  };
-
   useEffect(() => {
+    getMyMessages();
     getLikedMessages();
-    getMyMessages();
-  }, []);
-
-  useEffect(() => {
-    getMyMessages();
-  }, [user]);
+  }, [profile]);
 
   return (
     <>
@@ -104,7 +108,7 @@ export default function LogsPage() {
               messages={myMessages}
               colors={myColors}
             >
-              <Button onClick={() => router.push("/my")}>
+              <Button onClick={() => router.push("/logs/my")}>
                 <ArrowForwardIcon
                   sx={{ my: "auto", fontSize: "5rem", color: "secondary.dark" }}
                 />
@@ -116,7 +120,7 @@ export default function LogsPage() {
               messages={likedMessages}
               colors={likedColors}
             >
-              <Button onClick={() => router.push("/liked")}>
+              <Button onClick={() => router.push("/logs/liked")}>
                 <ArrowForwardIcon
                   sx={{ my: "auto", fontSize: "5rem", color: "secondary.dark" }}
                 />

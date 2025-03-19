@@ -17,14 +17,16 @@ export default function PrimaryButton({
       type="submit"
       variant="outlined"
       sx={{
-        bgcolor: "rgba(122, 199, 79, 0.07)",
-        borderColor: "rgba(122, 199, 79, 0.2)",
+        // bgcolor: "rgba(122, 199, 79, 0.1)",
+        // borderColor: "rgba(122, 199, 79, 0.3)",
+        bgcolor: "primary.main",
         color: "text.secondary",
         fontWeight: "normal",
         fontSize: "1rem",
         "&:hover": {
-          bgcolor: "rgba(122, 199, 79, 0.1)",
-          borderColor: "rgba(122, 199, 79, 0.3)",
+          bgcolor: "primary.light",
+          // bgcolor: "rgba(122, 199, 79, 0.1)",
+          // borderColor: "rgba(122, 199, 79, 0.3)",
         },
       }}
       formAction={formAction || undefined}

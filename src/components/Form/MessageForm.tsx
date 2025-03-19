@@ -23,9 +23,16 @@ interface MessageProps {
       }
     | undefined;
   fetchData?: () => void;
+  afterAction?: () => void;
+  disabled?: Boolean;
 }
 
-export default function MessageForm({ messageData, fetchData }: MessageProps) {
+export default function MessageForm({
+  messageData,
+  fetchData,
+  afterAction,
+  disabled = false,
+}: MessageProps) {
   const { user, profile } = useContext(UserContext);
 
   const [newMessage, setNewMessage] = useState(
@@ -63,6 +70,11 @@ export default function MessageForm({ messageData, fetchData }: MessageProps) {
 
     if (fetchData) {
       fetchData();
+    }
+
+    if (afterAction) {
+      console.log("it's working");
+      afterAction();
     }
   };
 
@@ -105,10 +117,14 @@ export default function MessageForm({ messageData, fetchData }: MessageProps) {
         }}
         sx={{ mx: "auto", mb: "1rem" }}
       />
-      <BasicButton
-        text="This is my word for today →"
-        clickEvent={handleSubmit}
-      />
+      {disabled ? (
+        <BasicButton text="Please, login to push the message" />
+      ) : (
+        <BasicButton
+          text="This is my word for today →"
+          clickEvent={handleSubmit}
+        />
+      )}
     </Box>
   );
 }

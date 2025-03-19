@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Box, Typography, Link } from "@mui/material";
 // CONTEXTS
 import { UserContext } from "@/src/context/UserContext";
@@ -7,23 +7,44 @@ import { RandColorContext } from "@/src/context/RandColorContext";
 import CloverLogo from "../Common/CloverLogo";
 import PrimaryButton from "../Common/PrimaryButton";
 import SubLink from "../Common/SubLink";
+import { ToastMsg } from "../Notification/ToastMsg";
+// TOAST
+import { toast } from "react-toastify";
 
 interface SlideProps {
   setPageStep: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export default function GreetSlide({ setPageStep }: SlideProps) {
-  const { profile, fetchUser } = useContext(UserContext);
+  const { user, profile, fetchUser } = useContext(UserContext);
   const getRandomColor = useContext(RandColorContext);
   console.log("profile: ", profile);
 
-  const name = profile ? profile.name : undefined;
-
-  const textArray = [
+  const [textArray, setTextArray] = useState([
     "Wow, Hello!",
     "Welcome to the journey to build yourself!",
-    `${name ? name : ""}`,
-  ];
+    `${profile?.name || ""}`,
+  ]);
+
+  const getUser = async () => {
+    if (fetchUser) {
+      await fetchUser();
+
+      setTextArray([
+        "Wow, Hello!",
+        "Welcome to the journey to build yourself!",
+        `${profile?.name || ""}`,
+      ]);
+    }
+  };
+
+  useEffect(() => {
+    setTextArray([
+      "Wow, Hello!",
+      "Welcome to the journey to build yourself!",
+      `${profile?.name || ""}`,
+    ]);
+  }, [profile]);
 
   return (
     <Box display={"flex"} flexDirection={"column"}>
@@ -65,9 +86,25 @@ export default function GreetSlide({ setPageStep }: SlideProps) {
       <SubLink
         text="Go to stack messages for future myself →"
         my="1rem"
-        clickEvent={() => setPageStep((prev) => prev + 1)}
+        clickEvent={() => {
+          if (user) {
+            setPageStep((prev) => prev + 1);
+          } else {
+            return toast(
+              <ToastMsg
+                title="Please login!"
+                message="You need to login to push the messages!"
+              />,
+              { hideProgressBar: true, autoClose: 1000 }
+            );
+          }
+        }}
       />
-      <SubLink text="Go to search anonymous messages →" my="1rem" />
+      <SubLink
+        text="Go to search anonymous messages →"
+        my="1rem"
+        href="/inspiration"
+      />
       <Box
         sx={{
           width: 100,

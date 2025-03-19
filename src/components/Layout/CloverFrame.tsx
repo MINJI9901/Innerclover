@@ -15,7 +15,8 @@ export default function CloverFrame({ text, children }: FrameProps) {
       sx={{
         minWidth: "30rem",
         padding: 3,
-        bgcolor: "rgba(255, 255, 255, 0.7)",
+        // bgcolor: "rgba(255, 255, 255, 0.7)",
+        bgcolor: "primary.light",
         backdropFilter: "blur(8px)",
         border: "none",
         boxShadow: "0 8px 32px rgba(0, 0, 0, 0.08)",

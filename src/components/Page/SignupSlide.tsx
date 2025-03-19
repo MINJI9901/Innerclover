@@ -1,23 +1,10 @@
 "use client";
 import { useState } from "react";
-import {
-  Box,
-  Card,
-  Typography,
-  TextField,
-  Button,
-  IconButton,
-  InputAdornment,
-  Link,
-} from "@mui/material";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 // COMPONENTS
 import CloverFrame from "../Layout/CloverFrame";
-import CloverLogo from "../Common/CloverLogo";
-import PrimaryButton from "../Common/PrimaryButton";
-import SubLink from "../Common/SubLink";
 import SignupForm from "../Form/SignupForm";
 import LoginForm from "../Form/LoginForm";
+import SendPassResetForm from "../Form/SendPassResetForm";
 
 interface SlideProps {
   setPageStep: React.Dispatch<React.SetStateAction<number>>;
@@ -26,24 +13,34 @@ interface SlideProps {
 export default function SignupSlide({ setPageStep }: SlideProps) {
   const [currentView, setCurrentView] = useState("signup");
 
+  const isLogin = currentView === "login";
+  const isSignup = currentView === "signup";
+
   return (
     <CloverFrame
       text={
         <>
-          {currentView === "login" ? (
+          {isLogin ? (
             <>Hi, Nice to see you again!</>
-          ) : (
+          ) : isSignup ? (
             <>
               To start, please create an <br /> account if needed
             </>
+          ) : (
+            <>Did you forget your password?</>
           )}
         </>
       }
     >
-      {currentView === "login" ? (
+      {isLogin ? (
         <LoginForm setPageStep={setPageStep} setCurrentView={setCurrentView} />
-      ) : (
+      ) : isSignup ? (
         <SignupForm setPageStep={setPageStep} setCurrentView={setCurrentView} />
+      ) : (
+        <SendPassResetForm
+          setPageStep={setPageStep}
+          setCurrentView={setCurrentView}
+        />
       )}
     </CloverFrame>
   );

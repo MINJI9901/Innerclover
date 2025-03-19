@@ -2,7 +2,7 @@
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 // import { useNavigate } from "react-router-dom";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 // CONTEXTS
 import { UserContext } from "../context/UserContext";
 // COMPONENTS
@@ -11,6 +11,8 @@ import Loading from "../components/Common/Loading";
 
 export default function Home() {
   const router = useRouter();
+
+  const { palette } = useTheme();
 
   const { user, isLoading } = useContext(UserContext);
 
@@ -26,12 +28,12 @@ export default function Home() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        // background: "linear-gradient(to bottom, #f0f8f0, #e0f0e0)",
-        background: "linear-gradient(90deg, #f0fae7, #bef6a6)",
+        // background: "linear-gradient(90deg, #f0fae7, #bef6a6)",
+        background: `linear-gradient(90deg, #f0fae7, ${palette.primary.main})`,
         padding: 2,
       }}
     >
-      {isLoading || user ? <Loading /> : <PrimaryPage />}
+      {isLoading ? <Loading /> : <PrimaryPage />}
     </Box>
   );
 }

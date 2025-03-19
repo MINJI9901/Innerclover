@@ -59,9 +59,8 @@ export default function TodayPage() {
       } else {
         setIsEditing(true);
       }
-
-      setPageLoading(false);
     }
+    setPageLoading(false);
   };
 
   useEffect(() => {
@@ -89,7 +88,7 @@ export default function TodayPage() {
             mb="3rem"
             fontWeight={700}
           />
-          {!isEditing ? (
+          {!isEditing && todayData ? (
             <>
               <MessageBlock
                 height="12rem"
@@ -108,14 +107,15 @@ export default function TodayPage() {
               messageData={
                 todayData
                   ? {
-                      id: todayData.id,
-                      message: todayData.message,
-                      user_id: todayData.userId,
-                      is_public: todayData.is_public,
+                      id: todayData?.id,
+                      message: todayData?.message,
+                      user_id: todayData?.userId,
+                      is_public: todayData?.is_public,
                     }
                   : undefined
               }
               fetchData={getTodayMessage}
+              disabled={true}
             />
           )}
         </Container>

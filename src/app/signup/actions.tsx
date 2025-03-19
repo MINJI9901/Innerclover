@@ -30,6 +30,16 @@ export async function login(formData: { email: string; password: string }) {
   return data?.user;
 }
 
+export async function logout() {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.log("error signing out: ", error);
+  }
+}
+
 export async function signup(formData: {
   email: string;
   password: string;
@@ -71,7 +81,7 @@ export async function signup(formData: {
       console.log(databaseError);
     }
 
-    console.log("sign up: ", database);
+    // console.log("sign up: ", database);
   }
 
   //   revalidatePath("/", "layout");
@@ -99,4 +109,46 @@ export async function checkEmailVerified(email: string) {
     console.log("User not foud");
     return false;
   }
+}
+
+export async function changePassword(password: string) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.updateUser({
+    password: password,
+  });
+
+  if (error) {
+    console.log("error updating password: ", error);
+    return false;
+  }
+
+  return data;
+}
+
+export async function sendPasswordResetEmail(email: string) {
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_URL}/reset-password`,
+  });
+
+  if (error) {
+    console.log("error sending password reset email: ", error);
+    return false;
+  }
+
+  return data;
+}
+
+export async function deleteAccount(userId: string) {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase.auth.admin.deleteUser(userId);
+
+  if (error) {
+    console.log("error deleting user: ", error);
+    return false;
+  }
+
+  return data;
 }

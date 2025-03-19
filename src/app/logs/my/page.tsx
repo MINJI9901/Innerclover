@@ -52,7 +52,7 @@ const day = today.getDay();
 const diffToMonday = day === 0 ? -6 : 1 - day;
 
 // MONDAY OF THIS WEEK
-const monday = today;
+const monday = new Date(today);
 monday.setDate(today.getDate() + diffToMonday);
 monday.setHours(0, 0, 0, 0);
 
@@ -142,8 +142,16 @@ export default function MyPage() {
       );
 
       !isCustommed && setDataState
-        ? setDataState(() => ({ data: [...data], colors: colorArray }))
-        : setCustommedData(() => ({ data: [...data], colors: colorArray }));
+        ? setDataState((prev) =>
+            prev.colors
+              ? { ...prev, data: [...data] }
+              : { data: [...data], colors: colorArray }
+          )
+        : setCustommedData((prev) =>
+            prev.colors
+              ? { ...prev, data: [...data] }
+              : { data: [...data], colors: colorArray }
+          );
     }
     setPageLoading(false);
   };
@@ -209,8 +217,6 @@ export default function MyPage() {
           dataState: thisYearData,
         },
       ];
-
-  console.log("render");
 
   useEffect(() => {
     if (user) {

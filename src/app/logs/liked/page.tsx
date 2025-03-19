@@ -114,16 +114,28 @@ export default function LikedPage() {
               fontWeight={700}
               textAlign="start"
             />
-            <Grid2 container spacing={2}>
-              {messages?.map((data, index) => (
-                <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={index}>
-                  <MessageBlock
-                    messageData={data}
-                    bgcolor={colors?.length ? colors[index] : ""}
-                  />
-                </Grid2>
-              ))}
-            </Grid2>
+            {messages ? (
+              <Grid2 container spacing={2}>
+                {messages?.map((data, index) => (
+                  <Grid2 size={{ xs: 12, sm: 6, md: 4 }} key={index}>
+                    <MessageBlock
+                      messageData={data}
+                      bgcolor={colors?.length ? colors[index] : ""}
+                    />
+                  </Grid2>
+                ))}
+              </Grid2>
+            ) : (
+              <Typography
+                width={"100%"}
+                fontSize={"1.1rem"}
+                textAlign={"center"}
+                color="text.secondary"
+                mt={"20%"}
+              >
+                No Data
+              </Typography>
+            )}
           </>
         )}
       </MainFrame>

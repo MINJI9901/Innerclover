@@ -17,10 +17,10 @@ export default function ThemeSelector() {
 
   const themeContext = useContext(ThemeContext);
 
-  const [theme, setTheme] = useState("basicTheme");
-
   const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    themeContext?.setThemeName(e.target.value);
+    const theme = e.target.value;
+    themeContext?.setThemeName(theme);
+    localStorage.setItem("theme", theme);
   };
 
   return (
