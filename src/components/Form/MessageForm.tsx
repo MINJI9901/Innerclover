@@ -42,9 +42,16 @@ export default function MessageForm({
       is_public: false,
     }
   );
+  const [leftLetters, setLeftLetters] = useState(
+    messageData?.message ? 5000 - messageData.message.length : 5000
+  );
 
   const handleMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewMessage((prev) => ({ ...prev, message: e.target.value }));
+    const value = e.target.value;
+    const numOfLetters = value.length;
+    console.log(numOfLetters);
+    setNewMessage((prev) => ({ ...prev, message: value }));
+    setLeftLetters(5000 - numOfLetters);
   };
 
   const handlePublicOption = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,7 +106,7 @@ export default function MessageForm({
           },
         }}
         placeholder="Whatever you want to say or you don't want to forget about..."
-        helperText={`${5000} chars left`}
+        helperText={`${leftLetters} chars left`}
         value={newMessage.message}
         onChange={handleMessage}
       />

@@ -12,15 +12,20 @@ import {
 import { UserContext } from "@/src/context/UserContext";
 import { ThemeContext } from "@/src/theme/ThemeProvider";
 
+const theme = localStorage.getItem("theme");
+
 export default function ThemeSelector() {
   const { palette } = useTheme();
 
   const themeContext = useContext(ThemeContext);
 
+  const [value, setValue] = useState(theme);
+
   const handleThemeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const theme = e.target.value;
-    themeContext?.setThemeName(theme);
-    localStorage.setItem("theme", theme);
+    const newTheme = e.target.value;
+    themeContext?.setThemeName(newTheme);
+    localStorage.setItem("theme", newTheme);
+    setValue(newTheme);
   };
 
   return (
@@ -36,12 +41,19 @@ export default function ThemeSelector() {
           value="basicTheme"
           control={<Radio />}
           label="Basic"
+          checked={value === "basicTheme"}
         />
-        <FormControlLabel value="darkTheme" control={<Radio />} label="Dark" />
+        <FormControlLabel
+          value="darkTheme"
+          control={<Radio />}
+          label="Dark"
+          checked={value === "darkTheme"}
+        />
         <FormControlLabel
           value="lightPinkTheme"
           control={<Radio />}
           label="Light Pink"
+          checked={value === "lightPinkTheme"}
         />
       </RadioGroup>
     </FormControl>

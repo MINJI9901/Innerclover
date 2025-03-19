@@ -7,6 +7,7 @@ import MessageForm from "../Form/MessageForm";
 import CloverFrame from "../Layout/CloverFrame";
 import BasicButton from "../Common/BasicButton";
 import MessageBlock from "../Display/MessageBlock";
+import Loading from "../Common/Loading";
 // HOOKS
 import { getMessagesByUserIdAndPeriod } from "@/src/app/actions";
 import { Box } from "@mui/material";
@@ -79,7 +80,9 @@ export default function InitialPushSlide() {
         </>
       }
     >
-      {!isEditing && todayData ? (
+      {pageLoading ? (
+        <Loading />
+      ) : !isEditing && todayData ? (
         <Box width={"27rem"}>
           <MessageBlock
             height="12rem"
