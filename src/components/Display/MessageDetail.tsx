@@ -34,24 +34,19 @@ export default function MessageDetail({
     const background = document.querySelector(".bg");
     const detailBox = document.querySelector(".detail");
 
-    console.dir(detailBox);
-    console.dir(detailBox?.getBoundingClientRect());
-
     if (detailBox) {
-      left = detailBox?.getBoundingClientRect().left + window.scrollX;
-      right = detailBox?.getBoundingClientRect().right + window.scrollX;
-      top = detailBox?.getBoundingClientRect().top + window.scrollY;
-      bottom = detailBox?.getBoundingClientRect().bottom + window.scrollY;
+      const rec = detailBox.getBoundingClientRect();
 
-      console.log(left, right, top, bottom);
+      left = rec.left;
+      right = rec.right;
+      top = rec.top;
+      bottom = rec.bottom;
     }
   }, []);
 
   const handleClosePopup = (e: React.MouseEvent<HTMLDivElement>) => {
     const x = e.clientX;
     const y = e.clientY;
-
-    console.log(x, y);
 
     const outOfHori = x < left || x > right;
     const outOfVer = y < top || y > bottom;
