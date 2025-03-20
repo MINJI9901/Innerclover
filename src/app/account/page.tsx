@@ -48,7 +48,9 @@ export default function AccountPage() {
           >
             <Grid2 size={{ xs: 12, md: 7 }}>
               {user ? (
-                <ProfileDisplayForm />
+                <Box mx={"1rem"}>
+                  <ProfileDisplayForm />
+                </Box>
               ) : (
                 <Box padding={"1rem 2rem 3rem"}>
                   <Title
