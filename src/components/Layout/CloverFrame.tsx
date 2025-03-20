@@ -14,7 +14,7 @@ export default function CloverFrame({ text, children }: FrameProps) {
     <Card
       sx={{
         // minWidth: "30rem",
-        width: "27rem",
+        width: { xs: "100%", sm: "30rem" },
         padding: 3,
         margin: "auto",
         // bgcolor: "rgba(255, 255, 255, 0.7)",
