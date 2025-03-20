@@ -27,7 +27,7 @@ export default function MainFrame({
           justifyContent: "center",
           // background: "linear-gradient(to bottom, #f0f8f0, #e0f0e0)",
           bgcolor: "background.default",
-          padding: 2,
+          padding: { xs: 0, sm: 2 },
         }}
       >
         <MenuStepper activeStep={step} />

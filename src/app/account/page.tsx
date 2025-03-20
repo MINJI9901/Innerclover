@@ -40,7 +40,7 @@ export default function AccountPage() {
           <Grid2
             container
             spacing={{ xs: 0, md: 7 }}
-            padding={"2rem"}
+            padding={{ xs: "1rem 0", sm: "2rem" }}
             border={"1px solid"}
             borderRadius={"1rem"}
             borderColor={palette.grey[300]}
@@ -72,7 +72,11 @@ export default function AccountPage() {
               )}
             </Grid2>
             <Divider orientation="vertical" />
-            <Grid2 size={{ xs: 12, md: 3 }} mt={"3rem"}>
+            <Grid2
+              size={{ xs: 12, md: 3 }}
+              mx={{ xs: "2rem", sm: 0 }}
+              mt={"3rem"}
+            >
               <ThemeSelector />
             </Grid2>
           </Grid2>
