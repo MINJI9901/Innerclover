@@ -11,12 +11,14 @@ export default function CloverLogo() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        // border: '1px solid #c8e6c8',
-        // borderRadius: 1,
-        // bgcolor: "rgba(255, 255, 255, 0.5)",
       }}
     >
-      <svg viewBox="10 20 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        viewBox="10 20 80 80"
+        width="100%"
+        height="100%"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         {/* <!-- Top-Left-Right-Bottom Leaf --> */}
         <circle cx="60" cy="38" r="13" fill="#7AC74F" />
         <circle cx="38" cy="40" r="13" fill="#7AC74F" />

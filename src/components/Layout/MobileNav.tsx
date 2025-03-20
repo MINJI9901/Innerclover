@@ -16,6 +16,8 @@ export default function MobileNav() {
     "/today": 0,
     "/inspiration": 1,
     "/logs": 2,
+    "/logs/my": 2,
+    "/logs/liked": 2,
     "/account": 3,
   };
 

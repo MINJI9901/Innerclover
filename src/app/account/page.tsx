@@ -39,14 +39,14 @@ export default function AccountPage() {
           />
           <Grid2
             container
-            spacing={7}
+            spacing={{ xs: 0, md: 7 }}
             padding={"2rem"}
             border={"1px solid"}
             borderRadius={"1rem"}
             borderColor={palette.grey[300]}
             bgcolor={"primary.light"}
           >
-            <Grid2 size={8}>
+            <Grid2 size={{ xs: 12, md: 7 }}>
               {user ? (
                 <ProfileDisplayForm />
               ) : (
@@ -72,7 +72,7 @@ export default function AccountPage() {
               )}
             </Grid2>
             <Divider orientation="vertical" />
-            <Grid2 size={3} mt={"3rem"}>
+            <Grid2 size={{ xs: 12, md: 3 }} mt={"3rem"}>
               <ThemeSelector />
             </Grid2>
           </Grid2>

@@ -62,6 +62,7 @@ export default function PrimarySlide({ setPageStep }: SlideProps) {
     >
       <Box
         sx={{
+          padding: "1rem",
           animation: { md: "shrinkBox 1s forwards" },
           animationDelay: { md: `${(5 + text.length / 2) * 0.1}s` },
         }}

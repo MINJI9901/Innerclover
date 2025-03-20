@@ -74,7 +74,7 @@ export const darkTheme = createTheme({
     secondary: {
       main: "#B03052",
       light: "#E4EFE7",
-      dark: "#3D0301",
+      dark: "#8AB2A6",
       contrastText: "#4D8C32",
     },
     background: {

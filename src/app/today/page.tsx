@@ -115,7 +115,7 @@ export default function TodayPage() {
                   : undefined
               }
               fetchData={getTodayMessage}
-              disabled={true}
+              disabled={user ? false : true}
             />
           )}
         </Container>

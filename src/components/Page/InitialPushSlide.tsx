@@ -81,9 +81,11 @@ export default function InitialPushSlide() {
       }
     >
       {pageLoading ? (
-        <Loading />
+        <Box maxHeight={"40rem"}>
+          <Loading />
+        </Box>
       ) : !isEditing && todayData ? (
-        <Box width={"27rem"}>
+        <Box>
           <MessageBlock
             height="12rem"
             messageData={todayData}
