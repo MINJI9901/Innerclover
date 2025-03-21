@@ -41,13 +41,13 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchUser = async () => {
     // await logout();
     const { data } = await supabase.auth.getUser();
-    console.log("user in context: ", data?.user);
+    // console.log("user in context: ", data?.user);
     setUser(data?.user);
 
     // IF THE USER EXISTS
     if (data?.user) {
       const profileData = await getRowById("users", data.user.id);
-      console.log("profile in context: ", profileData[0]);
+      // console.log("profile in context: ", profileData[0]);
       setProfile(profileData[0]);
     }
 

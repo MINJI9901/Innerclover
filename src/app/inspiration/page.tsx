@@ -40,7 +40,7 @@ export default function InspirationPage() {
   const getMessages = async () => {
     const data = await getPublicMessages(start, start + 8);
 
-    console.log(data);
+    // console.log(data);
 
     if (data.length) {
       const colorArray = Array.from({ length: 9 }, () =>
@@ -49,7 +49,6 @@ export default function InspirationPage() {
       setMessages((prev) => (prev ? [...prev, ...data] : data));
       setColors((prev) => (prev ? [...prev, ...colorArray] : colorArray));
       start += 8;
-      console.log(start);
     } else {
       setDataDone(true);
     }
@@ -69,7 +68,7 @@ export default function InspirationPage() {
           if (timeoutId) clearTimeout(timeoutId);
 
           timeoutId = setTimeout(() => {
-            console.log("it's hitting the bottom!");
+            // console.log("it's hitting the bottom!");
 
             getMessages().finally(() => setDisplayProgressBar(false));
           }, 1000);
@@ -79,7 +78,7 @@ export default function InspirationPage() {
     );
 
     if (loaderBox.current) {
-      console.log("loaderBox is there");
+      // console.log("loaderBox is there");
       io.observe(loaderBox.current);
     }
 

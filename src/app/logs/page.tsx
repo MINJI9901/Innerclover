@@ -59,7 +59,7 @@ export default function LogsPage() {
     if (user) {
       const data = await getMessagesByUserId(user?.id, start, end);
 
-      console.log("my messages: ", data);
+      // console.log("my messages: ", data);
 
       if (data.length) {
         const colorArray = Array.from({ length: end }, () =>
@@ -77,7 +77,7 @@ export default function LogsPage() {
     if (likedList.length) {
       const data = await getRowsInArray("messages", likedList, start, end);
 
-      console.log("Liked messages: ", data);
+      // console.log("Liked messages: ", data);
 
       if (data.length) {
         const colorArray = Array.from({ length: end }, () =>

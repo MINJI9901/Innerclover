@@ -40,7 +40,7 @@ export default function LikedPage() {
   const getMessages = async () => {
     const likedList = profile?.liked_messages || [];
 
-    console.log(profile?.liked_messages);
+    // console.log(profile?.liked_messages);
 
     if (likedList.length) {
       const data = await getRowsInArray(
@@ -50,7 +50,7 @@ export default function LikedPage() {
         start + 8
       );
 
-      console.log(data);
+      // console.log(data);
 
       if (data.length) {
         const colorArray = Array.from({ length: 9 }, () =>
@@ -59,7 +59,6 @@ export default function LikedPage() {
         setMessages((prev) => (prev ? [...prev, ...data] : data));
         setColors((prev) => (prev ? [...prev, ...colorArray] : colorArray));
         start += 8;
-        console.log(start);
       } else {
         setDataDone(true);
       }
@@ -81,7 +80,7 @@ export default function LikedPage() {
           if (timeoutId) clearTimeout(timeoutId);
 
           timeoutId = setTimeout(() => {
-            console.log("it's hitting the bottom!");
+            // console.log("it's hitting the bottom!");
 
             getMessages().finally(() => setDisplayProgressBar(false));
           }, 1000);
@@ -91,7 +90,7 @@ export default function LikedPage() {
     );
 
     if (loaderBox.current) {
-      console.log("loaderBox is there");
+      // console.log("loaderBox is there");
       io.observe(loaderBox.current);
     }
 
@@ -121,6 +120,7 @@ export default function LikedPage() {
                     <MessageBlock
                       messageData={data}
                       bgcolor={colors?.length ? colors[index] : ""}
+                      detailDisplay={true}
                     />
                   </Grid2>
                 ))}

@@ -36,7 +36,7 @@ export default function ProfileDisplayForm() {
     const name = e.target.name;
     const value = e.target.value;
 
-    console.log("name: ", name, "value: ", value);
+    // console.log("name: ", name, "value: ", value);
 
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
@@ -45,7 +45,7 @@ export default function ProfileDisplayForm() {
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
 
-    console.log("file: ", file);
+    // console.log("file: ", file);
 
     if (file && user?.id) {
       const fileUrl = await uploadImgFile(file, user.id);
@@ -60,8 +60,8 @@ export default function ProfileDisplayForm() {
           avatar_url: `${fileUrl}?v=${new Date().getTime()}`,
         }));
 
-        console.log("file url: ", `${fileUrl}?v=${new Date().getTime()}`);
-        console.log("file url update res: ", res);
+        // console.log("file url: ", `${fileUrl}?v=${new Date().getTime()}`);
+        // console.log("file url update res: ", res);
       }
     }
   };
@@ -70,7 +70,7 @@ export default function ProfileDisplayForm() {
   const handleSubmit = async () => {
     if (user) {
       const res = await updateRowById("users", user?.id, formData);
-      console.log("update profile res", res);
+      // console.log("update profile res", res);
     }
     setIsEditing(false);
   };

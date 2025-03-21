@@ -71,7 +71,6 @@ export default function SignupForm({
     if (step > 1) {
       if (passwordRegex.test(formData.password)) {
         const isVerified = await checkEmailVerified(formData.email);
-        console.log(isVerified);
 
         if (isVerified && !isSubmitted) {
           return toast(
@@ -122,10 +121,11 @@ export default function SignupForm({
             { autoClose: 2000, hideProgressBar: true }
           );
         }
-      } else {
-        // Password validation not passes
-        console.log("no");
       }
+      // else {
+      //   // Password validation not passes
+      //   console.log("no");
+      // }
     }
   };
 

@@ -44,14 +44,14 @@ export default function TodayPage() {
 
   const getTodayMessage = async () => {
     if (user) {
-      console.log("user id in today page: ", user.id);
+      // console.log("user id in today page: ", user.id);
       const data = await getMessagesByUserIdAndPeriod(
         user?.id,
         todayStart,
         todayEnd
       );
 
-      console.log("today message in page: ", data[0]);
+      // console.log("today message in page: ", data[0]);
 
       if (data[0]) {
         setTodayData(data[0]);

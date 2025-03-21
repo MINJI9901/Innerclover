@@ -49,7 +49,7 @@ export default function MessageForm({
   const handleMessage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const numOfLetters = value.length;
-    console.log(numOfLetters);
+
     setNewMessage((prev) => ({ ...prev, message: value }));
     setLeftLetters(5000 - numOfLetters);
   };
@@ -65,14 +65,14 @@ export default function MessageForm({
         user_id: user?.id,
       });
 
-      console.log("res in insert: ", res);
+      // console.log("res in insert: ", res);
     } else {
       const res = await updateRowById("messages", messageData.id, {
         message: newMessage.message,
         is_public: newMessage.is_public,
       });
 
-      console.log("res in update: ", res);
+      // console.log("res in update: ", res);
     }
 
     if (fetchData) {
@@ -80,7 +80,7 @@ export default function MessageForm({
     }
 
     if (afterAction) {
-      console.log("it's working");
+      // console.log("it's working");
       afterAction();
     }
   };

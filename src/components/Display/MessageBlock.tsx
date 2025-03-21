@@ -79,7 +79,7 @@ export default function MessageBlock({
         messageData.id
       );
 
-      console.log(userRes);
+      // console.log(userRes);
 
       const messageRes = await updateArrayColumnById(
         "messages",
@@ -88,7 +88,7 @@ export default function MessageBlock({
         user ? user?.id : ""
       );
 
-      console.log(messageRes);
+      // console.log(messageRes);
 
       setDynamicLikes((prev) => prev + 1);
       setMyLikes(true);
@@ -101,7 +101,7 @@ export default function MessageBlock({
         true
       );
 
-      console.log(userRes);
+      // console.log(userRes);
 
       const messageRes = await updateArrayColumnById(
         "messages",
@@ -111,7 +111,7 @@ export default function MessageBlock({
         true
       );
 
-      console.log(messageRes);
+      // console.log(messageRes);
 
       setDynamicLikes((prev) => prev - 1);
       setMyLikes(false);

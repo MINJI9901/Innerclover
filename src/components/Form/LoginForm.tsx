@@ -60,7 +60,7 @@ export default function LoginForm({ setPageStep, setCurrentView }: SlideProps) {
     // IT RETURNS USER DATA OR FALSE (BOOLEAN)
     if (passwordRegex.test(formData.password)) {
       const res = await login(formData);
-      console.log("login res: ", res);
+      // console.log("login res: ", res);
       if (!res) {
         return toast(
           <ToastMsg
@@ -75,10 +75,11 @@ export default function LoginForm({ setPageStep, setCurrentView }: SlideProps) {
         fetchUser ? await fetchUser() : "";
         setPageStep ? setPageStep(1) : "";
       }
-    } else {
-      // WHEN PASSWORD VALIDATION FAILED
-      console.log("password validation wrong");
     }
+    // else {
+    //   // WHEN PASSWORD VALIDATION FAILED
+    //   console.log("password validation wrong");
+    // }
   };
 
   return (

@@ -47,7 +47,6 @@ let amount = 8;
 
 // SET TODAY AND RESOURCE NEEDED FOR DATE CALCULATING
 const today = new Date();
-console.log("today: ", today);
 const day = today.getDay();
 const diffToMonday = day === 0 ? -6 : 1 - day;
 
@@ -134,8 +133,8 @@ export default function MyPage() {
 
       sortByDate(data);
 
-      console.log("start data: ", startDate, "end data: ", endDate);
-      console.log(data);
+      // console.log("start data: ", startDate, "end data: ", endDate);
+      // console.log(data);
 
       const colorArray = Array.from({ length: data.length }, () =>
         getRandomColor("light")
@@ -169,7 +168,7 @@ export default function MyPage() {
         setColors((prev) => (prev ? [...prev, ...colorArray] : colorArray));
 
         start += amount;
-        console.log(start);
+        // console.log(start);
       } else {
         setDataDone(true);
       }
@@ -282,6 +281,7 @@ export default function MyPage() {
                                   ? el.dataState.colors[index]
                                   : ""
                               }
+                              detailDisplay={true}
                             />
                           </Grid2>
                         ))

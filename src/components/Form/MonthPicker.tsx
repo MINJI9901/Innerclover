@@ -55,7 +55,7 @@ export default function MonthPicker({
 
   const handleDateSubmit = () => {
     const newValue = new Date(year, month, 1);
-    console.log(newValue);
+    // console.log(newValue);
     setValue(newValue);
     setIsOpen(false);
 

@@ -86,7 +86,11 @@ export default function MessageDetail({
             {profile?.name}
           </Typography>
         </Box>
-        <MessageBlock messageData={messageData} detailDisplay={false} />
+        <MessageBlock
+          messageData={messageData}
+          detailDisplay={false}
+          height="fit-content"
+        />
       </Box>
     </Box>
   );

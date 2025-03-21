@@ -45,7 +45,7 @@ export default function PasswordResetPage() {
     // IT RETURNS USER DATA OR FALSE (BOOLEAN)
     if (passwordRegex.test(password)) {
       const res = await changePassword(password);
-      console.log("send email to reset password res: ", res);
+      // console.log("send email to reset password res: ", res);
       if (!res) {
         return toast(
           <ToastMsg

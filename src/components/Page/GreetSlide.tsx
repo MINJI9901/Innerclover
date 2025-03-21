@@ -18,7 +18,7 @@ interface SlideProps {
 export default function GreetSlide({ setPageStep }: SlideProps) {
   const { user, profile, fetchUser } = useContext(UserContext);
   const getRandomColor = useContext(RandColorContext);
-  console.log("profile: ", profile);
+  // console.log("profile: ", profile);
 
   const [textArray, setTextArray] = useState([
     "Wow, Hello!",

@@ -53,7 +53,7 @@ export default function SendPassResetForm({
     // IT RETURNS USER DATA OR FALSE (BOOLEAN)
     if (emailRegex.test(email)) {
       const res = await sendPasswordResetEmail(email);
-      console.log("send email to reset password res: ", res);
+      // console.log("send email to reset password res: ", res);
       if (!res) {
         return toast(
           <ToastMsg
