@@ -16,7 +16,7 @@ interface DataFormat {
   id: string;
   created_at: string;
   message: string;
-  userId: string;
+  user_id: string;
   is_public: boolean;
   likes?: string[] | null;
 }
@@ -105,7 +105,7 @@ export default function InitialPushSlide() {
               ? {
                   id: todayData?.id,
                   message: todayData?.message,
-                  user_id: todayData?.userId,
+                  user_id: todayData?.user_id,
                   is_public: todayData?.is_public,
                 }
               : undefined
