@@ -1,6 +1,7 @@
 "use client";
 import { useContext, useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 // CONTEXTS
 import { RandColorContext } from "@/src/context/RandColorContext";
 import { UserContext } from "@/src/context/UserContext";
@@ -8,6 +9,7 @@ import { UserContext } from "@/src/context/UserContext";
 import MessageDetail from "./MessageDetail";
 // HOOKS
 import { updateArrayColumnById } from "@/src/app/actions";
+import { deleteRowById } from "@/src/app/actions";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -23,7 +25,7 @@ interface DataFormat {
   id: string;
   created_at: string;
   message: string;
-  userId: string;
+  user_id: string;
   is_public: boolean;
   likes?: string[] | null;
 }
@@ -34,6 +36,7 @@ interface MessageProps {
   height?: string;
   bgcolor?: string;
   detailDisplay?: Boolean;
+  afterDeletion?: Function;
 }
 
 export default function MessageBlock({
@@ -41,7 +44,7 @@ export default function MessageBlock({
     id: "123",
     created_at: new Date().toLocaleDateString(),
     message: "Lorem ipsum dolor, sit amet consectetur adipisicing elit.",
-    userId: "123",
+    user_id: "123",
     is_public: true,
     likes: null,
   },
@@ -49,6 +52,7 @@ export default function MessageBlock({
   height = "6rem",
   bgcolor,
   detailDisplay = false,
+  afterDeletion,
 }: MessageProps) {
   const getRandomColor = useContext(RandColorContext);
   const { user, profile } = useContext(UserContext);
@@ -58,19 +62,27 @@ export default function MessageBlock({
   const [dynamicLikes, setDynamicLikes] = useState(likes?.length || 0);
   const [myLikes, setMyLikes] = useState(false);
   const [displayDetail, setDisplayDetail] = useState(false);
+  const [deletable, setDeletable] = useState(false);
 
   useEffect(() => {
-    // TO CHECK IF THE MESSAGES IS LIKED BY THE USER
     if (displayHeader) {
-      profile?.liked_messages?.forEach((msgId) => {
-        if (msgId === messageData.id) {
-          setMyLikes(true);
-        }
-      });
+      // TO CHECK IF THE MESSAGE IS LIKED BY THE USER
+      if (profile?.liked_messages?.includes(messageData.id)) {
+        setMyLikes(true);
+      }
+      // TO CHECK IF THE MESSAGE IS BY THE USER
+      if (messageData.user_id === user?.id) {
+        setDeletable(true);
+      }
+      // profile?.liked_messages?.forEach((msgId) => {
+      //   if (msgId === messageData.id) {
+      //     setMyLikes(true);
+      //   }
+      // });
     }
   }, []);
 
-  const likesClickEvent = async () => {
+  const handleLikeMessage = async () => {
     if (!myLikes) {
       const userRes = await updateArrayColumnById(
         "users",
@@ -118,6 +130,15 @@ export default function MessageBlock({
     }
   };
 
+  const handleDelete = async () => {
+    const res = await deleteRowById("messages", messageData.id);
+    console.log(res);
+
+    if (afterDeletion) {
+      afterDeletion();
+    }
+  };
+
   return (
     <>
       <Box
@@ -132,8 +153,18 @@ export default function MessageBlock({
           justifyContent={"space-between"}
           mb={"1rem"}
         >
-          <span>{formatDate(created_at)}</span>
-          <span style={{ cursor: "pointer" }} onClick={likesClickEvent}>
+          <Box>
+            <span>{formatDate(created_at)}</span>
+            {deletable ? (
+              <DeleteOutlineIcon
+                sx={{ fontSize: "1.1rem", mx: "0.3rem", mb: "0.2rem" }}
+                onClick={handleDelete}
+              />
+            ) : (
+              ""
+            )}
+          </Box>
+          <span style={{ cursor: "pointer" }} onClick={handleLikeMessage}>
             {is_public ? `${myLikes ? "♥" : "♡"} ${dynamicLikes}` : ""}
           </span>
         </Box>

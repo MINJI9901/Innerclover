@@ -136,6 +136,20 @@ export async function updateArrayColumnById(
   return data;
 }
 
+// ---------- DELETE ----------
+export async function deleteRowById(table: string, id: string) {
+  const supabase = await createAdminClient();
+
+  const { data, error } = await supabase.from(table).delete().eq("id", id);
+
+  if (error) {
+    console.log("error deleting row by id: ", error);
+    throw error;
+  }
+
+  return data;
+}
+
 // -------------------- MESSAGES APIs --------------------
 // ---------- GET ----------
 export async function getMessagesByUserId(

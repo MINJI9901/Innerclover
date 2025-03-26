@@ -8,7 +8,7 @@ interface DataFormat {
   id: string;
   created_at: string;
   message: string;
-  userId: string;
+  user_id: string;
   is_public: boolean;
   likes?: string[] | null;
 }
@@ -18,6 +18,7 @@ interface DisplayProps {
   titleLink?: string;
   messages: DataFormat[] | undefined;
   colors: string[] | undefined;
+  afterDeletion?: Function;
   children?: React.ReactNode;
 }
 
@@ -26,6 +27,7 @@ export default function FlexMessageDisplay({
   titleLink,
   messages,
   colors,
+  afterDeletion,
   children,
 }: DisplayProps) {
   return (
@@ -51,6 +53,7 @@ export default function FlexMessageDisplay({
             <MessageBlock
               messageData={data}
               bgcolor={colors?.length ? colors[index] : ""}
+              afterDeletion={afterDeletion || undefined}
             />
           </Box>
         ))}

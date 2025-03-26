@@ -29,7 +29,7 @@ interface DataFormat {
   id: string;
   created_at: string;
   message: string;
-  userId: string;
+  user_id: string;
   is_public: boolean;
   likes?: string[] | null;
 }
@@ -107,6 +107,7 @@ export default function LogsPage() {
               titleLink="/logs/my"
               messages={myMessages}
               colors={myColors}
+              afterDeletion={getMyMessages}
             >
               <Button onClick={() => router.push("/logs/my")}>
                 <ArrowForwardIcon
@@ -119,6 +120,7 @@ export default function LogsPage() {
               titleLink="/logs/liked"
               messages={likedMessages}
               colors={likedColors}
+              afterDeletion={getLikedMessages}
             >
               <Button onClick={() => router.push("/logs/liked")}>
                 <ArrowForwardIcon

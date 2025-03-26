@@ -18,7 +18,7 @@ interface DataFormat {
   id: string;
   created_at: string;
   message: string;
-  userId: string;
+  user_id: string;
   is_public: boolean;
   likes?: string[] | null;
 }
@@ -48,7 +48,7 @@ export default function InspirationPage() {
       );
       setMessages((prev) => (prev ? [...prev, ...data] : data));
       setColors((prev) => (prev ? [...prev, ...colorArray] : colorArray));
-      start += 8;
+      start += 9;
     } else {
       setDataDone(true);
     }
@@ -108,6 +108,7 @@ export default function InspirationPage() {
                     messageData={data}
                     bgcolor={colors?.length ? colors[index] : ""}
                     detailDisplay={true}
+                    afterDeletion={getMessages}
                   />
                 </Grid2>
               ))}
