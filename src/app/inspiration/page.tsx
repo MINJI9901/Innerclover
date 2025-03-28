@@ -24,6 +24,7 @@ interface DataFormat {
 }
 
 let start = 0;
+let page = 1;
 
 export default function InspirationPage() {
   const getRandomColor = useContext(RandColorContext);
@@ -38,7 +39,7 @@ export default function InspirationPage() {
   const [dataDone, setDataDone] = useState(false);
 
   const getMessages = async () => {
-    const data = await getPublicMessages(start, start + 8);
+    const data = await getPublicMessages(page);
 
     // console.log(data);
 
@@ -46,9 +47,10 @@ export default function InspirationPage() {
       const colorArray = Array.from({ length: 9 }, () =>
         getRandomColor("light")
       );
-      setMessages((prev) => (prev ? [...prev, ...data] : data));
+      setMessages((prev) => (page > 1 && prev ? [...prev, ...data] : data));
       setColors((prev) => (prev ? [...prev, ...colorArray] : colorArray));
       start += 9;
+      page++;
     } else {
       setDataDone(true);
     }

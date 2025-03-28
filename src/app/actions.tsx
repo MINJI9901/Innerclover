@@ -220,35 +220,46 @@ export async function getMessagesByUserIdAndPeriod(
 }
 
 // ---------- GET ----------
-export async function getPublicMessages(start?: number, end?: number) {
+const seed = Math.random();
+
+export async function getPublicMessages(page: number) {
+  // const page = 1;
+  const pageSize = 9;
+
   const supabase = await createAdminClient();
 
-  if (typeof start === "number" && typeof end === "number") {
-    const { data, error } = await supabase
-      .from("messages")
-      .select("*")
-      .eq("is_public", true)
-      .range(start, end);
+  // if (typeof start === "number" && typeof end === "number") {
+  // const { data, error } = await supabase
+  //   .from("messages")
+  //   .select("*")
+  //   .eq("is_public", true)
+  //   .range(start, end)
+  //   .order("RANDOM()", { ascending: false });
+  const { data, error } = await supabase.rpc("randomized_pagination", {
+    seed_value: seed,
+    limit_value: pageSize,
+    offset_value: (page - 1) * pageSize,
+  });
 
-    if (error) {
-      console.log("error getting row by id: ", error);
-      throw error;
-    }
-
-    return data;
-  } else {
-    const { data, error } = await supabase
-      .from("messages")
-      .select("*")
-      .eq("is_public", true);
-
-    if (error) {
-      console.log("error getting row by id: ", error);
-      throw error;
-    }
-
-    return data;
+  if (error) {
+    console.log("error getting row by id: ", error);
+    throw error;
   }
+
+  return data;
+  // } else {
+  //   const { data, error } = await supabase
+  //     .from("messages")
+  //     .select("*")
+  //     .eq("is_public", true);
+
+  //   if (error) {
+  //     console.log("error getting row by id: ", error);
+  //     throw error;
+  //   }
+
+  //   return data;
+  // }
 }
 
 // -------------------- STORAGE IMG UPLOAD --------------------
